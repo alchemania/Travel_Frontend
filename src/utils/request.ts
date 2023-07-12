@@ -1,5 +1,10 @@
 export const Port = 8000
-export const BASE_URL_API = `http://localhost:${Port}/api`
+// export const BASE_URL_API = `http://localhost:${Port}/api`
+//上线后修改
+const WEB_LOC = "47.110.236.51"
+export const BASE_URL = `http://${WEB_LOC}:${Port}`
+export const BASE_URL_API = `${BASE_URL}/api`
+
 
 export const api_nmainland_all = `${BASE_URL_API}/data/nmainland/all`
 
@@ -22,7 +27,7 @@ export const api_country_rate = `${BASE_URL_API}/data/country/rate`
 // aborted
 export const api_weather = `${BASE_URL_API}/data/weather`
 
-export const BASE_URL_ML = `http://localhost:${Port}/ml`
+export const BASE_URL_ML = `${BASE_URL}/ml`
 
 export const ml_get_all = `${BASE_URL_ML}/all`
 
