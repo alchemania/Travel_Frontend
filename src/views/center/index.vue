@@ -1,98 +1,99 @@
 <template>
-    <div class="center">
-        <div class="up">
-            <div class="bg-color-black item" v-for="item in titleItem" :key="item.title">
-                <p class="ml-3 colorBlue fw-b">{{ item.title }}</p>
-                <div>
-                    <dv-digital-flop class="dv-dig-flop ml-1 mt-1 pl-3" :config="item.config"/>
-                </div>
-            </div>
+  <div class="center">
+    <div class="up">
+      <div class="bg-color-black item" v-for="item in upperMiddleConfig" :key="item.title">
+        <p class="ml-3 colorBlue fw-b">{{ item.title }}</p>
+        <div>
+          <dv-digital-flop class="dv-dig-flop ml-1 mt-1 pl-3" :config="item.config"/>
         </div>
-        <div class="down">
-            <div class="ranking bg-color-black">
-                <div class="d11-content">
-                    <dv-decoration-11 class="d11">
-                        <div color-green font-600 bg="~ dark/0">
-                            本年预计同比增长
-                        </div>
-                    </dv-decoration-11>
-                    <dv-decoration-11 class="d11">
-                        <div color-green font-600 bg="~ dark/0">
-                            本月同比增长
-                        </div>
-                    </dv-decoration-11>
-                </div>
-                <div class="water-wrapper">
-                    <dv-water-level-pond class="water-pond" :config=poolData.leftpool></dv-water-level-pond>
-                    <dv-water-level-pond class="water-pond" :config=poolData.rightpool></dv-water-level-pond>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
+    <div class="down">
+      <div class="ranking bg-color-black">
+        <div class="d11-content">
+          <dv-decoration-11 class="d11">
+            <div color-green font-600 bg="~ dark/0">
+              本年预计同比增长
+            </div>
+          </dv-decoration-11>
+          <dv-decoration-11 class="d11">
+            <div color-green font-600 bg="~ dark/0">
+              本月预计同比增长
+            </div>
+          </dv-decoration-11>
+        </div>
+        <div class="water-wrapper">
+          <dv-water-level-pond class="water-pond" :config=subMiddleConfig.leftpool></dv-water-level-pond>
+          <dv-water-level-pond class="water-pond" :config=subMiddleConfig.rightpool></dv-water-level-pond>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
-import {onBeforeMount, reactive, onMounted} from 'vue'
+import {reactive, onMounted} from 'vue'
 import axios from "axios";
-import {api_hotel_rate, api_nmainland_sum, api_nmainland_per} from "@/utils/request";
+import {api_hotel_rate, api_sh_visitors_sum, api_sh_visitors_yoy} from "@/utils/request";
 
 
 // 下层数据
-const titleData = [
-    {
-        number: 102000,
-        text: '本年累计游客数'
-    },
-    {
-        number: 18,
-        text: '本月累计游客数'
-    },
-    {
-        number: 34.2,
-        text: '星级酒店预计空置率%'
-    },
-]
-const titleItem = reactive([])
-const poolData = reactive({
-    "leftpool": {data: [-0.1], shape: 'rect'},
-    "rightpool": {data: [3.2], shape: 'rect'}
+const upperMiddleConfig = reactive([
+  {
+    title: '本年累计游客数',
+    config: {
+      number: [],
+      toFixed: 1,
+      textAlign: 'left',
+      content: '{nt}',
+      style: {
+        fontSize: 26
+      }
+    }
+  },
+  {
+    title: '本月累计游客数',
+    config: {
+      number: [],
+      toFixed: 1,
+      textAlign: 'left',
+      content: '{nt}',
+      style: {
+        fontSize: 26
+      }
+    }
+  },
+  {
+    title: '星级酒店预计空置率%',
+    config: {
+      number: [],
+      toFixed: 1,
+      textAlign: 'left',
+      content: '{nt}',
+      style: {
+        fontSize: 26
+      }
+    }
+  }
+])
+
+const subMiddleConfig = reactive({
+  "leftpool": {data: [0.0], shape: 'roundRect'},
+  "rightpool": {data: [0.0], shape: 'roundRect'}
 })
 // 初始化数据
 onMounted(async () => {
-    titleData[0].number = (await axios.post(api_nmainland_sum(new Date().getFullYear(), null))).data['sum']
-    titleData[1].number = (await axios.post(api_nmainland_sum(new Date().getFullYear(), new Date().getMonth() + 1))).data['sum']
-    titleData[2].number = 100 - (await axios.post(api_hotel_rate)).data['per']
-    poolData.leftpool.data = [(await axios.post(api_nmainland_per(new Date().getFullYear(), null))).data['per']]
-    poolData.rightpool.data = [(await axios.post(api_nmainland_per(new Date().getFullYear(), new Date().getMonth() + 1))).data['per']]
-    console.log(poolData)
-    setData()
+  await fetch()
 })
 
-const water = reactive({
-    data: [24, 45],
-    shape: 'roundRect',
-    formatter: '{value}%',
-    waveNum: 3
-})
-
-// 设置数据
-const setData = () => {
-    titleData.map(e => {
-        titleItem.push({
-            title: e.text,
-            config: {
-                number: [e.number],
-                toFixed: 1,
-                textAlign: 'left',
-                content: '{nt}',
-                style: {
-                    fontSize: 26
-                }
-            }
-        })
-    })
+const fetch = async () => {
+  upperMiddleConfig[0].config.number.push((await axios.get(api_sh_visitors_sum(new Date().getFullYear(), null, null))).data['sum'])
+  upperMiddleConfig[1].config.number.push((await axios.get(api_sh_visitors_sum(new Date().getFullYear(), new Date().getMonth() + 1, null))).data['sum'])
+  upperMiddleConfig[2].config.number.push((await axios.get(api_hotel_rate)).data['per'])
+  subMiddleConfig.leftpool.data = [(await axios.get(api_sh_visitors_yoy(new Date().getFullYear(), null, null))).data['per']]
+  subMiddleConfig.rightpool.data = [(await axios.get(api_sh_visitors_yoy(new Date().getFullYear(), new Date().getMonth() + 1, null))).data['per']]
+  console.log(upperMiddleConfig)
 }
-
 </script>
 
 <style lang="scss" scoped>
@@ -147,7 +148,7 @@ const setData = () => {
 
     .water-wrapper {
       display: flex;
-      margin: 10 auto;
+      margin: auto;
       bottom: 0;
       padding-top: 30px;
 

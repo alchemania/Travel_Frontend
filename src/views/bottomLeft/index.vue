@@ -40,6 +40,7 @@ $box-width: 100%;
   }
   .text {
     color: #c3cbde;
+    font-size: 16px;
   }
   .chart-box {
     margin-top: 16px;

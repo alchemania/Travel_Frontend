@@ -41,6 +41,7 @@ export default defineComponent({
   }
   .text {
     color: #c3cbde;
+    font-size: 16px;
   }
   .dv-dec-1 {
     position: relative;
