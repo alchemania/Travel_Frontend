@@ -1,6 +1,6 @@
 import {defineComponent, reactive, onMounted} from 'vue'
 import Draw from './draw'
-import {api_nmainland_all} from "@/utils/request";
+import {api_sh_visitors_all} from "@/utils/request";
 import axios from "axios";
 
 
@@ -29,7 +29,7 @@ export default defineComponent({
         // 生命周期
         onMounted(() => {
             // @ts-ignore
-            axios.post(api_nmainland_all).then(res => {
+            axios.post(api_sh_visitors_all).then(res => {
                 console.log(res.data)
                 setData(res.data)
             })

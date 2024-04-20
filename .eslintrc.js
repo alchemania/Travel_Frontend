@@ -16,6 +16,12 @@ module.exports = {
     // 解决 Require 类型报错
     '@typescript-eslint/no-var-requires': 0,
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    "vue/multi-word-component-names": [
+      "error",
+      {
+        ignores: ["index"], //需要忽略的组件名
+      },
+    ],
   }
 }
