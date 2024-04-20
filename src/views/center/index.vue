@@ -4,7 +4,7 @@
       <div class="bg-color-black item" v-for="item in upperMiddleConfig" :key="item.title">
         <p class="ml-3 colorBlue fw-b">{{ item.title }}</p>
         <div>
-          <dv-digital-flop class="dv-dig-flop ml-1 mt-1 pl-3" :config="item.config"/>
+          <dv-digital-flop class="dv-dig-flop" :config="item.config"/>
         </div>
       </div>
     </div>
@@ -44,7 +44,7 @@ const upperMiddleConfig = reactive([
     config: {
       number: [],
       toFixed: 1,
-      textAlign: 'left',
+      textAlign: 'center',
       content: '{nt}',
       style: {
         fontSize: 26
@@ -56,7 +56,7 @@ const upperMiddleConfig = reactive([
     config: {
       number: [],
       toFixed: 1,
-      textAlign: 'left',
+      textAlign: 'center',
       content: '{nt}',
       style: {
         fontSize: 26
@@ -68,7 +68,7 @@ const upperMiddleConfig = reactive([
     config: {
       number: [],
       toFixed: 1,
-      textAlign: 'left',
+      textAlign: 'center',
       content: '{nt}',
       style: {
         fontSize: 26
