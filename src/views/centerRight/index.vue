@@ -19,7 +19,7 @@
 <script setup>
 import {reactive, onBeforeMount} from 'vue'
 import axios from "axios";
-import {api_country_rate} from "@/utils/request";
+import {api_sh_visitors_by_country_statistics} from "@/utils/request";
 
 const config = reactive({
   header: ['国家', '今年人数(万)', '同比增长', '总人数(万)'],
@@ -35,7 +35,7 @@ const config = reactive({
 })
 
 onBeforeMount(() => {
-  axios.get(api_country_rate).then(res => {
+  axios.get(api_sh_visitors_by_country_statistics).then(res => {
     let data = []
     let raw_data = res.data
     for (let ele in raw_data) {

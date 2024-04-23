@@ -12,11 +12,14 @@ if (deploy) {
 export const BASE_URL_API = `http://${ACCESS_POINT}:${Port}/api`
 
 
-export const api_sh_visitors_all = `${BASE_URL_API}/data/sh/visitors/all`
+export const api_sh_visitors_rawdata = (freq: string, ys: number, ms: number, ds: number, ye: number, me: number, de: number) => {
+    const TEMPLATE = `${BASE_URL_API}/data/sh/visitors/raw`
+    return `${TEMPLATE}/${freq}/${ys}-${ms}-${ds}/${ye}-${me}-${de}`
+}
+
 
 export const api_sh_visitors_sum = (year: number, month: number | null, day: number | null) => {
     const TEMPLATE = `${BASE_URL_API}/data/sh/visitors/sum`
-    console.log(year, month, day)
     if (month == null && day == null)
         return `${TEMPLATE}/y/${year}/01/01`
     else if (day == null)
@@ -35,19 +38,19 @@ export const api_sh_visitors_yoy = (year: number, month: number | null, day: num
         return `${TEMPLATE}/d/${year}/${month}/${day}`
 }
 
-export const api_hotel_all = `${BASE_URL_API}/data/hotel/all`
+export const api_sh_hotel_rawdata = (freq: string, ys: number, ms: number, ds: number, ye: number, me: number, de: number) => {
+    const TEMPLATE = `${BASE_URL_API}/data/sh/hotel/raw`
+    return `${TEMPLATE}/${freq}/${ys}-${ms}-${ds}/${ye}-${me}-${de}`
+}
 
-export const api_hotel_rate = `${BASE_URL_API}/data/hotel/per`
+export const api_sh_hotel_yoy = (year: number, month: number | null, day: number | null) => {
+    const TEMPLATE = `${BASE_URL_API}/data/sh/hotel/yoy`
+    if (month == null && day == null)
+        return `${TEMPLATE}/y/${year}/01/01`
+    else if (day == null)
+        return `${TEMPLATE}/m/${year}/${month}/01`
+    else
+        return `${TEMPLATE}/d/${year}/${month}/${day}`
+}
 
-export const api_country_rate = `${BASE_URL_API}/data/country/rate`
-
-// aborted
-export const BASE_URL_ML = `${BASE_URL_API}/ml`
-
-export const ml_get_all = `${BASE_URL_ML}/all`
-
-export const ml_insight_forecast = `${BASE_URL_ML}/pred/is`
-
-export const ml_re_forecast = `${BASE_URL_ML}/pred/re`
-
-export const ml_model_retrain = `${BASE_URL_ML}/train/re`
+export const api_sh_visitors_by_country_statistics = `${BASE_URL_API}/data/sh/visitorsbycountry/stats`
