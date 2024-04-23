@@ -16,25 +16,24 @@
           <dv-digital-flop class="dv-dig-flop" :config="item.config"/>
         </div>
       </div>
-      <!--      <div class="d-flex jc-center">-->
-      <!--                <div class="content-box">-->
-      <!--                  <div id="he-plugin-standard"></div>-->
-      <!--                </div>-->
-      <!--      </div>-->
     </div>
   </div>
 </template>
 
 <script lang="js" setup>
 import {onMounted, reactive} from "vue";
+import axios from "axios";
+import {api_sh_data_stats} from "@/utils/request";
+import {hot_to_string} from "@/utils";
 
 const upperMiddleConfig = reactive([
   {
-    title: '淡/旺季',
+    title: '下一个高峰',
     config: {
-      toFixed: 1,
+      toFixed: 0,
+      number: [],
       textAlign: 'center',
-      content: '淡季',
+      content: '{nt}年{nt}月{nt}日',
       style: {
         fontSize: 26
       }
@@ -43,8 +42,8 @@ const upperMiddleConfig = reactive([
   {
     title: '本年入境游热度',
     config: {
-      toFixed: 1,
-      textAlign: 'right',
+      toFixed: 0,
+      textAlign: 'center',
       content: '远高于去年',
       style: {
         fontSize: 26
@@ -54,7 +53,6 @@ const upperMiddleConfig = reactive([
   {
     title: '本月入境游热度',
     config: {
-      number: [],
       toFixed: 1,
       textAlign: 'center',
       content: '高于平时',
@@ -65,30 +63,15 @@ const upperMiddleConfig = reactive([
   }
 ])
 
-const widgetConfig = {
-  layout: '2',
-  width: '280',
-  height: 350,
-  background: '4',
-  dataColor: 'FFFFFF',
-  language: 'zh',
-  aqiColor: 'FFFFFF',
-  borderRadius: '10',
-  backgroundColor: "#0f1428",
-  city: 'CN101020100',
-  key: 'b11144bd5a14416085db59161cdbfa6e'
-}
-
 
 onMounted(async () => {
-  const script = document.createElement('script');
-  script.setAttribute('src', 'https://widget.qweather.net/standard/static/js/he-standard-common.js?v=2.0');
-  script.onload = () => {
-    window.WIDGET = {
-      CONFIG: widgetConfig
-    };
-  };
-  document.body.appendChild(script);
+  axios.get(api_sh_data_stats).then(res => {
+    const data = res.data
+    const peak_day = new Date(data['peak_day'])
+    upperMiddleConfig[0].config.number = [peak_day.getFullYear(), peak_day.getMonth() + 1, peak_day.getDate()]
+    upperMiddleConfig[1].config.content = hot_to_string(data['hot_year']) + "去年"
+    upperMiddleConfig[2].config.content = hot_to_string(data['hot_month']) + "平时"
+  })
 })
 
 </script>
@@ -128,7 +111,7 @@ $box-height: 410px;
     height: 26%;
 
     .dv-dig-flop {
-      width: 150px;
+      width: 250px;
       height: 30px;
     }
   }

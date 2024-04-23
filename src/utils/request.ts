@@ -9,17 +9,17 @@ if (deploy) {
     ACCESS_POINT = "localhost"
 }
 
-export const BASE_URL_API = `http://${ACCESS_POINT}:${Port}/api`
+export const API = `http://${ACCESS_POINT}:${Port}/api`
 
 
 export const api_sh_visitors_rawdata = (freq: string, ys: number, ms: number, ds: number, ye: number, me: number, de: number) => {
-    const TEMPLATE = `${BASE_URL_API}/data/sh/visitors/raw`
+    const TEMPLATE = `${API}/data/sh/visitors/raw`
     return `${TEMPLATE}/${freq}/${ys}-${ms}-${ds}/${ye}-${me}-${de}`
 }
 
 
 export const api_sh_visitors_sum = (year: number, month: number | null, day: number | null) => {
-    const TEMPLATE = `${BASE_URL_API}/data/sh/visitors/sum`
+    const TEMPLATE = `${API}/data/sh/visitors/sum`
     if (month == null && day == null)
         return `${TEMPLATE}/y/${year}/01/01`
     else if (day == null)
@@ -29,7 +29,7 @@ export const api_sh_visitors_sum = (year: number, month: number | null, day: num
 }
 
 export const api_sh_visitors_yoy = (year: number, month: number | null, day: number | null) => {
-    const TEMPLATE = `${BASE_URL_API}/data/sh/visitors/yoy`
+    const TEMPLATE = `${API}/data/sh/visitors/yoy`
     if (month == null && day == null)
         return `${TEMPLATE}/y/${year}/01/01`
     else if (day == null)
@@ -39,12 +39,12 @@ export const api_sh_visitors_yoy = (year: number, month: number | null, day: num
 }
 
 export const api_sh_hotel_rawdata = (freq: string, ys: number, ms: number, ds: number, ye: number, me: number, de: number) => {
-    const TEMPLATE = `${BASE_URL_API}/data/sh/hotel/raw`
+    const TEMPLATE = `${API}/data/sh/hotel/raw`
     return `${TEMPLATE}/${freq}/${ys}-${ms}-${ds}/${ye}-${me}-${de}`
 }
 
 export const api_sh_hotel_yoy = (year: number, month: number | null, day: number | null) => {
-    const TEMPLATE = `${BASE_URL_API}/data/sh/hotel/yoy`
+    const TEMPLATE = `${API}/data/sh/hotel/yoy`
     if (month == null && day == null)
         return `${TEMPLATE}/y/${year}/01/01`
     else if (day == null)
@@ -53,4 +53,6 @@ export const api_sh_hotel_yoy = (year: number, month: number | null, day: number
         return `${TEMPLATE}/d/${year}/${month}/${day}`
 }
 
-export const api_sh_visitors_by_country_statistics = `${BASE_URL_API}/data/sh/visitorsbycountry/stats`
+export const api_sh_visitors_by_country_statistics = `${API}/data/sh/visitorsbycountry/stats`
+
+export const api_sh_data_stats = `${API}/data/sh/stats`

@@ -34,7 +34,7 @@
 <script setup>
 import {reactive, onMounted} from 'vue'
 import axios from "axios";
-import {api_hotel_rate, api_sh_hotel_yoy, api_sh_visitors_sum, api_sh_visitors_yoy} from "@/utils/request";
+import {api_sh_hotel_yoy, api_sh_visitors_sum, api_sh_visitors_yoy} from "@/utils/request";
 
 
 // 下层数据
@@ -43,7 +43,7 @@ const upperMiddleConfig = reactive([
     title: '本年累计游客数',
     config: {
       number: [],
-      toFixed: 1,
+      toFixed: 0,
       textAlign: 'center',
       content: '{nt}',
       style: {
@@ -55,7 +55,7 @@ const upperMiddleConfig = reactive([
     title: '本月累计游客数',
     config: {
       number: [],
-      toFixed: 1,
+      toFixed: 0,
       textAlign: 'center',
       content: '{nt}',
       style: {
