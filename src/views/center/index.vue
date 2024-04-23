@@ -34,7 +34,7 @@
 <script setup>
 import {reactive, onMounted} from 'vue'
 import axios from "axios";
-import {api_hotel_rate, api_sh_visitors_sum, api_sh_visitors_yoy} from "@/utils/request";
+import {api_hotel_rate, api_sh_hotel_yoy, api_sh_visitors_sum, api_sh_visitors_yoy} from "@/utils/request";
 
 
 // 下层数据
@@ -89,10 +89,9 @@ onMounted(async () => {
 const fetch = async () => {
   upperMiddleConfig[0].config.number.push((await axios.get(api_sh_visitors_sum(new Date().getFullYear(), null, null))).data['sum'])
   upperMiddleConfig[1].config.number.push((await axios.get(api_sh_visitors_sum(new Date().getFullYear(), new Date().getMonth() + 1, null))).data['sum'])
-  upperMiddleConfig[2].config.number.push((await axios.get(api_hotel_rate)).data['per'])
+  upperMiddleConfig[2].config.number.push((await axios.get(api_sh_hotel_yoy(new Date().getFullYear(), new Date().getMonth() + 1, null))).data['per'])
   subMiddleConfig.leftpool.data = [(await axios.get(api_sh_visitors_yoy(new Date().getFullYear(), null, null))).data['per']]
   subMiddleConfig.rightpool.data = [(await axios.get(api_sh_visitors_yoy(new Date().getFullYear(), new Date().getMonth() + 1, null))).data['per']]
-  console.log(upperMiddleConfig)
 }
 </script>
 
