@@ -31,7 +31,7 @@ export default defineComponent({
                 color: '#F02FC2'
               }
             },
-            data: val.frn,
+            data: val.FOREIGN,
             emphasis: {
               focus: 'series'
             }
@@ -49,7 +49,7 @@ export default defineComponent({
                 ])
               }
             },
-            data: val.hk_mw,
+            data: val.HM,
             emphasis: {
               focus: 'series'
             }
@@ -68,7 +68,7 @@ export default defineComponent({
               }
             },
             z: -12,
-            data: val.tw,
+            data: val.TW,
             emphasis: {
               focus: 'series'
             }
@@ -103,7 +103,7 @@ export default defineComponent({
             bottom: '7%'
           },
           xAxis: {
-            data: val.timeline,
+            data: val.DATE,
             axisLine: {
               lineStyle: {
                 color: '#B4B4B4'

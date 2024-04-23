@@ -26,7 +26,7 @@ export default defineComponent({
                 color: '#F02FC2'
               }
             },
-            data: val.ap,
+            data: val.avg_price,
             emphasis: {
               focus: 'series'
             },
@@ -40,7 +40,7 @@ export default defineComponent({
                 color: '#515404'
               }
             },
-            data: val.ap5,
+            data: val.avg_price_5,
             emphasis: {
               focus: 'series'
             },
@@ -59,7 +59,7 @@ export default defineComponent({
               }
             },
             yAxisIndex: 1, // 将折线图的y轴索引设置为1
-            data: val.ar,
+            data: val.avg_rent_rate,
             emphasis: {
               focus: 'series'
             }
@@ -78,7 +78,7 @@ export default defineComponent({
             },
             yAxisIndex: 1, // 将折线图的y轴索引设置为1
             z: -12,
-            data: val.ar5,
+            data: val.avg_rent_rate_5,
             emphasis: {
               focus: 'series'
             }
@@ -114,7 +114,7 @@ export default defineComponent({
             bottom: '7%'
           },
           xAxis: {
-            data: val.timeline,
+            data: val.DATE,
             axisLine: {
               lineStyle: {
                 color: '#B4B4B4'

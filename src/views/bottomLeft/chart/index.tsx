@@ -1,4 +1,4 @@
-import {defineComponent, reactive, onMounted} from 'vue'
+import {defineComponent, reactive, onMounted, ref} from 'vue'
 import Draw from './draw'
 import {api_sh_visitors_all} from "@/utils/request";
 import axios from "axios";
@@ -10,34 +10,20 @@ export default defineComponent({
         Draw
     },
     setup() {
-        const cdata = reactive({
-            timeline: [],
-            frn: [],
-            hk_mw: [],
-            tw: []
-        })
-
-        // methods
-        const setData = res => {
-            cdata.timeline = res.timeline
-            cdata.frn = res.frn
-            cdata.hk_mw = res.hk_mw
-            cdata.tw = res.tw
-            console.log(cdata)
-        }
+        const cdata = reactive({"data": {}})
 
         // 生命周期
         onMounted(() => {
             // @ts-ignore
             axios.post(api_sh_visitors_all).then(res => {
-                console.log(res.data)
-                setData(res.data)
+                console.log(res)
+                cdata.data = res.data
             })
         })
 
         return () => {
             return <div>
-                <Draw cdata={cdata}/>
+                <Draw cdata={cdata.data}/>
             </div>
         }
     }

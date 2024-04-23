@@ -11,35 +11,20 @@ export default defineComponent({
     },
     setup() {
         const cdata = reactive({
-            timeline: [],
-            ap: [],
-            ap5: [],
-            ar: [],
-            ar5: []
+            data: {}
         })
-
-        // methods
-        const setData = res => {
-            cdata.timeline = res.timeline
-            cdata.ap = res.ap
-            cdata.ap5 = res.ap5
-            cdata.ar = res.ar
-            cdata.ar5 = res.ar5
-            console.log(cdata)
-        }
 
         // 生命周期
         onMounted(() => {
             // @ts-ignore
             axios.post(api_hotel_all).then(res => {
-                console.log(res.data)
-                setData(res.data)
+                cdata.data = res.data
             })
         })
 
         return () => {
             return <div>
-                <Draw cdata={cdata}/>
+                <Draw cdata={cdata.data}/>
             </div>
         }
     }
