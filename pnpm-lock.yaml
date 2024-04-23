@@ -41,9 +41,6 @@ importers:
       vue-router:
         specifier: ^4.0.0-0
         version: 4.3.2(vue@3.4.23(typescript@4.6.4))
-      vue3-pro-table:
-        specifier: ^1.1.1
-        version: 1.1.1
       vuex:
         specifier: ^4.0.0-0
         version: 4.1.0(vue@3.4.23(typescript@4.6.4))
@@ -3988,9 +3985,6 @@ packages:
 
   vue-template-es2015-compiler@1.9.1:
     resolution: {integrity: sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==}
-
-  vue3-pro-table@1.1.1:
-    resolution: {integrity: sha512-thnsdD7fB3M2Xp8YQz6RmZUP3tngdVAdvP4EvC940HEpJsN628H1W1KDlHYnwObxRR1q1dHCcUK7gCKdYA5zxQ==}
 
   vue@3.4.23:
     resolution: {integrity: sha512-X1y6yyGJ28LMUBJ0k/qIeKHstGd+BlWQEOT40x3auJFTmpIhpbKLgN7EFsqalnJXq1Km5ybDEsp6BhuWKciUDg==}
@@ -8481,8 +8475,6 @@ snapshots:
       loader-utils: 1.4.2
 
   vue-template-es2015-compiler@1.9.1: {}
-
-  vue3-pro-table@1.1.1: {}
 
   vue@3.4.23(typescript@4.6.4):
     dependencies:
