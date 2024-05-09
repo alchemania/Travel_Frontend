@@ -6,7 +6,7 @@
                 <i class="iconfont icon-tongji4"/>
               </span>
         <div class="d-flex">
-          <span class="fs-xl text mx-2">上海今日天气</span>
+          <span class="fs-xl text mx-2">趋势总览</span>
           <dv-decoration-3 class="dv-dec-3"/>
         </div>
       </div>
