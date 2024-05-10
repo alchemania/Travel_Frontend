@@ -17,7 +17,6 @@ export default defineComponent({
             const time_now = new Date()
             // @ts-ignore
             axios.get(api_sh_visitors_rawdata('m', 2011, 1, 1, time_now.getFullYear(), time_now.getMonth() + 1, time_now.getDay())).then(res => {
-                console.log(res)
                 cdata.data = res.data
             })
         })

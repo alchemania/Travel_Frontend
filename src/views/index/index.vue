@@ -1,6 +1,6 @@
 <template>
   <div id="index" ref="appRef">
-    <a-float-button @click="isShOpen=!isShOpen">
+    <a-float-button @click="connection">
       <template #icon>
         <RightOutlined/>
       </template>
@@ -114,7 +114,7 @@ import {
   onMounted,
   onUnmounted,
 } from 'vue'
-import {formatTime} from '@/utils/index'
+import {formatTime} from '@/utils'
 import {WEEK} from '@/constant/index'
 import useDraw from '@/utils/useDraw'
 import {title, subtitle} from '@/constant/index'
@@ -133,68 +133,49 @@ const isShOpen = ref(false)
 const socket = ref();
 const status = ref()
 
-onMounted(() => {
-  socket.value = io(WS_BASE)
-  socket.value.on('connect', () => {
-    status.value = 'connected'
-    console.log('Connected to the server');
-  });
+const connection = () => {
+  if (isShOpen.value === false) {
+    isShOpen.value = !isShOpen.value
+    socket.value = io(WS_BASE)
+    socket.value.on('connect', () => {
+      status.value = 'connected'
+      console.log('Connected to the server');
+    });
 
-  socket.value.on('disconnect', (reason) => {
-    status.value = 'disconnected'
-    console.log(`Disconnected: ${reason}`);
-  });
+    socket.value.on('disconnect', (reason) => {
+      status.value = 'disconnected'
+      console.log(`Disconnected: ${reason}`);
+    });
 
-  socket.value.on('error', (error) => {
-    console.error('Connection Error:', error);
-  });
+    socket.value.on('error', (error) => {
+      console.error('Connection Error:', error);
+    });
 
-  socket.value.on('reconnect_attempt', () => {
-    console.log('Attempting to reconnect...');
-  });
+    socket.value.on('reconnect_attempt', () => {
+      console.log('Attempting to reconnect...');
+    });
 
-  socket.value.on('reconnect_failed', () => {
-    status.value = 'disconnected'
-    console.log('Reconnection failed');
-  });
-})
-
-onUnmounted(() => {
-  socket.value.disconnect()
-})
-
-const onExecCmd = (key, command, success, failed) => {
-  if (key === 'conn') {
-    success({
-      type: 'normal',
-      class: 'info',
-      content: status
-    })
-  } else {
-    socket.value.emit('cmd', command)
-    success({
-      type: 'normal',
-      class: 'success',
-      content: command
-    })
-    // TerminalApi.pushMessage('ws_sh', 'processing.')
-    // socket.value.on('message', res => {
-    //   if (res.type === 'success') {
-    //     success({
-    //       type: 'normal',
-    //       class: 'success',
-    //       content: res.msg
-    //     })
-    //   } else {
-    //     failed({
-    //       type: 'normal',
-    //       class: 'error',
-    //       content: res.msg
-    //     })
-    //   }
-    // })
+    socket.value.on('reconnect_failed', () => {
+      status.value = 'disconnected'
+      console.log('Reconnection failed');
+    });
+  } else if (isShOpen.value === true) {
+    isShOpen.value = !isShOpen.value
+    socket.value.disconnect()
 
   }
+}
+
+const onExecCmd = (key, command, success, failed) => {
+  socket.value.emit(key, command, ack => {
+    ack = JSON.parse(ack)
+    console.log(ack.msg)
+    success({
+      type: 'normal',
+      class: ack.status,
+      content: ack.msg
+    })
+  })
 }
 
 // * 颜色
