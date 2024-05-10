@@ -17,6 +17,7 @@
     "dayjs": "^1.11.7",
     "echarts": "5.4.1",
     "element-plus": "^2.3.5",
+    "socket.io-client": "^4.7.5",
     "vue": "^3.0.0",
     "vue-class-component": "^8.0.0-0",
     "vue-cookies": "^1.8.3",

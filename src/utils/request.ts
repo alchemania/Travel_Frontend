@@ -9,8 +9,10 @@ if (deploy) {
     ACCESS_POINT = "localhost"
 }
 
-export const API = `http://${ACCESS_POINT}:${Port}/api`
 
+
+export const API = `http://${ACCESS_POINT}:${Port}/api`
+export const WS_BASE = `http://${ACCESS_POINT}:${Port}`
 
 export const api_sh_visitors_rawdata = (freq: string, ys: number, ms: number, ds: number, ye: number, me: number, de: number) => {
     const TEMPLATE = `${API}/data/sh/visitors/raw`
@@ -56,3 +58,4 @@ export const api_sh_hotel_yoy = (year: number, month: number | null, day: number
 export const api_sh_visitors_by_country_statistics = `${API}/data/sh/visitorsbycountry/stats`
 
 export const api_sh_data_stats = `${API}/data/sh/stats`
+

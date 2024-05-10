@@ -1,18 +1,18 @@
 <template>
   <div id="index" ref="appRef">
-    <a-float-button @click="openShell">
+    <a-float-button @click="isShOpen=!isShOpen">
       <template #icon>
         <RightOutlined/>
       </template>
     </a-float-button>
     <div id="shell-container">
       <terminal
-          name="my-terminal"
+          name="ws_sh"
           @exec-cmd="onExecCmd"
           :drag-conf="{width: 700, height: 500, init:{ x: 50, y: 50 }}"
-          v-show="open"
+          v-show="isShOpen"
           title="系统维护终端"
-          context="webshell"
+          context="ws"
       />
     </div>
     <div class="bg">
@@ -125,24 +125,75 @@ import CenterRight from '@/views/centerRight/index.vue'
 import BottomLeft from '../bottomLeft/index.vue'
 import BottomRight from '../bottomRight/index.vue'
 import {RightOutlined} from "@ant-design/icons-vue";
+import {WS_BASE} from "@/utils/request";
+import {io} from "socket.io-client";
+import Terminal, {TerminalApi} from "vue-web-terminal";
 
-const open = ref(false)
-const openShell = () => {
-  open.value = !open.value
-}
+const isShOpen = ref(false)
+const socket = ref();
+const status = ref()
+
+onMounted(() => {
+  socket.value = io(WS_BASE)
+  socket.value.on('connect', () => {
+    status.value = 'connected'
+    console.log('Connected to the server');
+  });
+
+  socket.value.on('disconnect', (reason) => {
+    status.value = 'disconnected'
+    console.log(`Disconnected: ${reason}`);
+  });
+
+  socket.value.on('error', (error) => {
+    console.error('Connection Error:', error);
+  });
+
+  socket.value.on('reconnect_attempt', () => {
+    console.log('Attempting to reconnect...');
+  });
+
+  socket.value.on('reconnect_failed', () => {
+    status.value = 'disconnected'
+    console.log('Reconnection failed');
+  });
+})
+
+onUnmounted(() => {
+  socket.value.disconnect()
+})
+
 const onExecCmd = (key, command, success, failed) => {
-  if (key === 'fail') {
-    failed('Something wrong!!!')
-  } else {
-    let allClass = ['success', 'error', 'system', 'info', 'warning'];
-
-    let clazz = allClass[Math.floor(Math.random() * allClass.length)];
+  if (key === 'conn') {
     success({
       type: 'normal',
-      class: clazz,
-      tag: '成功',
+      class: 'info',
+      content: status
+    })
+  } else {
+    socket.value.emit('cmd', command)
+    success({
+      type: 'normal',
+      class: 'success',
       content: command
     })
+    // TerminalApi.pushMessage('ws_sh', 'processing.')
+    // socket.value.on('message', res => {
+    //   if (res.type === 'success') {
+    //     success({
+    //       type: 'normal',
+    //       class: 'success',
+    //       content: res.msg
+    //     })
+    //   } else {
+    //     failed({
+    //       type: 'normal',
+    //       class: 'error',
+    //       content: res.msg
+    //     })
+    //   }
+    // })
+
   }
 }
 
