@@ -11,13 +11,13 @@ import PublicComponent from '@/components/componentInstall';
 import Terminal from "vue-web-terminal"
 //  引入黑色主题
 import 'vue-web-terminal/lib/theme/dark.css'
-import Antd from "ant-design-vue"
+import {FloatButton} from "ant-design-vue"
 
 const app = createApp(App)
 app.use(PublicComponent)
 app.use(DataVVue3)
 app.use(router)
-app.use(Antd)
+app.use(FloatButton)
 // @ts-ignore
 app.use(Terminal)
 app.mount('#app')
