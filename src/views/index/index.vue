@@ -1,5 +1,20 @@
 <template>
   <div id="index" ref="appRef">
+    <a-float-button @click="openShell">
+      <template #icon>
+        <RightOutlined/>
+      </template>
+    </a-float-button>
+    <div id="shell-container">
+      <terminal
+          name="my-terminal"
+          @exec-cmd="onExecCmd"
+          :drag-conf="{width: 700, height: 500, init:{ x: 50, y: 50 }}"
+          v-show="open"
+          title="系统维护终端"
+          context="webshell"
+      />
+    </div>
     <div class="bg">
       <dv-loading v-if="loading">Loading...</dv-loading>
       <div v-else class="host-body">
@@ -92,9 +107,8 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="js" setup>
 import {
-  defineComponent,
   ref,
   reactive,
   onMounted,
@@ -103,19 +117,39 @@ import {
 import {formatTime} from '@/utils/index'
 import {WEEK} from '@/constant/index'
 import useDraw from '@/utils/useDraw'
-import {title, subtitle, moduleInfo} from '@/constant/index'
+import {title, subtitle} from '@/constant/index'
 import CenterLeft1 from '../centerLeft1/index.vue'
 import CenterLeft2 from '../centerLeft2/index.vue'
 import Center from '../center/index.vue'
 import CenterRight from '@/views/centerRight/index.vue'
 import BottomLeft from '../bottomLeft/index.vue'
 import BottomRight from '../bottomRight/index.vue'
+import {RightOutlined} from "@ant-design/icons-vue";
 
+const open = ref(false)
+const openShell = () => {
+  open.value = !open.value
+}
+const onExecCmd = (key, command, success, failed) => {
+  if (key === 'fail') {
+    failed('Something wrong!!!')
+  } else {
+    let allClass = ['success', 'error', 'system', 'info', 'warning'];
+
+    let clazz = allClass[Math.floor(Math.random() * allClass.length)];
+    success({
+      type: 'normal',
+      class: clazz,
+      tag: '成功',
+      content: command
+    })
+  }
+}
 
 // * 颜色
 const decorationColors = ['#568aea', '#000000']
 // * 加载标识
-const loading = ref<boolean>(true)
+const loading = ref(true)
 // * 时间内容
 const timeInfo = reactive({
   setInterval: 0,
