@@ -10,7 +10,7 @@ import './assets/icon/iconfont.css'
 import PublicComponent from '@/components/componentInstall';
 import Terminal from "vue-web-terminal"
 //  引入黑色主题
-import 'vue-web-terminal/lib/theme/dark.css'
+import 'vue-web-terminal/lib/theme/light.css'
 import {FloatButton} from "ant-design-vue"
 
 const app = createApp(App)

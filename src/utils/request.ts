@@ -10,7 +10,6 @@ if (deploy) {
 }
 
 
-
 export const API = `http://${ACCESS_POINT}:${Port}/api`
 export const WS_BASE = `http://${ACCESS_POINT}:${Port}`
 
@@ -28,6 +27,11 @@ export const api_sh_visitors_sum = (year: number, month: number | null, day: num
         return `${TEMPLATE}/m/${year}/${month}/01`
     else
         return `${TEMPLATE}/d/${year}/${month}/${day}`
+}
+
+export const api_sh_visitors_sumdiv = (year: number, month: number) => {
+    const TEMPLATE = `${API}/data/sh/visitors/sumdiv`
+    return `${TEMPLATE}/${year}/${month}`
 }
 
 export const api_sh_visitors_yoy = (year: number, month: number | null, day: number | null) => {
