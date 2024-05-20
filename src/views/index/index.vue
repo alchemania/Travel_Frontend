@@ -1,21 +1,5 @@
 <template>
   <div id="index" ref="appRef">
-    <a-float-button @click="isShOpen = !isShOpen">
-      <template #icon>
-        <RightOutlined/>
-      </template>
-    </a-float-button>
-    <div id="shell-container">
-      <terminal
-          name="ws_sh"
-          @exec-cmd="onExecCmd"
-          :drag-conf="{width: 1200, height: 1000}"
-          v-show="isShOpen"
-          title="系统维护终端"
-          context="ws"
-          :show-header=true
-      />
-    </div>
     <div class="bg">
       <dv-loading v-if="loading">Loading...</dv-loading>
       <div v-else class="host-body">
@@ -125,101 +109,6 @@ import Center from '../center/index.vue'
 import CenterRight from '@/views/centerRight/index.vue'
 import BottomLeft from '../bottomLeft/index.vue'
 import BottomRight from '../bottomRight/index.vue'
-import {RightOutlined} from "@ant-design/icons-vue";
-import {WS_BASE} from "@/utils/request";
-import {io} from "socket.io-client";
-import Terminal, {TerminalApi} from "vue-web-terminal";
-
-const isShOpen = ref(false)
-const socket = ref();
-const status = ref('disconnected')
-
-// watch(isShOpen, () => {
-//   if (isShOpen.value === false) {
-//     socket.value.disconnect()
-//   }
-// })
-
-const onExecCmd = (key, command, success, failed) => {
-  if (status.value === 'connected') {
-    if (key === 'connect') {
-      success({
-        type: 'normal',
-        class: 'success',
-        content: "Connect Normally."
-      })
-    } else if (key === 'disconnect') {
-      socket.value.disconnect()
-      success({
-        type: 'normal',
-        class: 'success',
-        content: "Disconnected from Websocket Server."
-      })
-    } else {
-      socket.value.emit(key, command, ack => {
-        ack = JSON.parse(ack)
-        console.log(ack)
-        success(ack)
-      })
-    }
-  } else if (status.value === 'disconnected') {
-    if (key === 'connect') {
-      console.log('Try to Connect to the server');
-      const args = command.split(/\s+/).slice(1);
-      if (args.length !== 2) {
-        success({
-          type: 'normal',
-          class: 'error',
-          content: "Wrong Format, like 'connect usr psw'."
-        })
-        return
-      }
-      socket.value = io(WS_BASE, {
-        auth: {
-          usr: args[0],
-          psw: args[1]
-        }
-      })
-      socket.value.on('connect', () => {
-        success({
-          type: 'normal',
-          class: 'success',
-          content: "Connection Established. Welcome."
-        })
-        status.value = 'connected'
-        console.log('Connected to the server');
-      });
-
-      socket.value.on('disconnect', (reason) => {
-        success({
-          type: 'normal',
-          class: 'error',
-          content: `Disconnected: ${reason}`
-        })
-        status.value = 'disconnected'
-        console.log(`Disconnected: ${reason}`);
-      });
-
-      socket.value.on('error', (error) => {
-        console.error('Connection Error:', error);
-      });
-
-      socket.value.on('reconnect_attempt', () => {
-        console.log('Attempting to reconnect...');
-      });
-
-      socket.value.on('reconnect_failed', () => {
-        console.log('Reconnection failed');
-      });
-    } else {
-      success({
-        type: 'normal',
-        class: 'info',
-        content: "WebSocket Connection Not Established."
-      })
-    }
-  }
-}
 
 // * 颜色
 const decorationColors = ['#568aea', '#000000']

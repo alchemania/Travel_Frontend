@@ -40,7 +40,7 @@ import {api_sh_hotel_yoy, api_sh_visitors_sum, api_sh_visitors_yoy} from "@/util
 // 下层数据
 const upperMiddleConfig = reactive([
   {
-    title: '本年累计游客数',
+    title: '本年预计游客数',
     config: {
       number: [],
       toFixed: 0,
@@ -52,7 +52,7 @@ const upperMiddleConfig = reactive([
     }
   },
   {
-    title: '本月累计游客数',
+    title: '本月预计游客数',
     config: {
       number: [],
       toFixed: 0,
@@ -64,7 +64,7 @@ const upperMiddleConfig = reactive([
     }
   },
   {
-    title: '星级酒店预计空置率%',
+    title: '星级酒店预计入住率%',
     config: {
       number: [],
       toFixed: 1,
